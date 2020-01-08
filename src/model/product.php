@@ -34,6 +34,22 @@ class product
     {
         return  $this->product_Desc;
     }
+    public function getFoodDrink()
+    {
+        return $this->food_drink;
+    }
+    public function getPrice()
+    {
+        return $this->price;
+    }
+    public function getStock()
+    {
+        return $this->stock;
+    }
+    public function getDietary()
+    {
+        return $this->dietary;
+    }
 
 }
 
