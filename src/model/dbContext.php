@@ -3,10 +3,10 @@ include_once 'product.php';
 
 class dbContext
 {
-    private  $db_server = 'Proj-mysql.uopnet.plymouth.ac.uk';
-    private  $db_User = 'ISAD251_JPyle';
-    private $db_Password = 'ISAD_22213523';
-    private $db_Database = 'ISAD251_Jpyle';
+    private  $db_server = 'proj-mysql.uopnet.plymouth.ac.uk';
+    private  $dbUser = 'ISAD251_JPyle';
+    private $dbPassword = 'ISAD251_22213523';
+    private $dbDatabase = 'ISAD251_JPyle';
     private  $dataSourceName;
     private $connection;
 
@@ -28,25 +28,43 @@ class dbContext
         }
     }
 
-    public function Products()
+
+    public function getItemTypes($type)
     {
-        $sql = "SELECT * FROM `product`";
+
+        $sql = "SELECT * FROM `product` WHERE `Food_Drink` LIKE '".$type."'";
 
         $statement = $this->connection->prepare($sql);
         $statement->execute();
         $resultSet = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $products = [];
-        if($resultSet)
-        {
-            foreach($resultSet as $row)
-            {
-                $product =  new product($row['id'], $row['product_Name'], $row['product_Desc', $row['food_Drink'], $row['price'], $row['stock'],$row['dietary']]);
-                $products = $product;
+        if ($resultSet) {
+            foreach ($resultSet as $row) {
+                $product = new Product($row['Product_Id'], $row['Product_Name'], $row['Product_Desc'], $row['Food_Drink'], $row['Price'], $row['Stock'], $row['Dietary']);
+                $products[] = $product;
             }
         }
         return $products;
     }
 
+
+    public function enter_Request($request)
+    {
+        $sql = "CALL EnterRequest(:Order_Id, :Customer_Id, :Table_No, :Time :Age_Restriction)";
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam('Order_Id', $request->getOrderId(), PDO::PARAM_STR);
+        $statement->bindParam('Customer_Id', $request->getCustomerId(), PDO::PARAM_STR);
+        $statement->bindParam('Table_No', $request->getTableNo(), PDO::PARAM_STR);
+        $statement->bindParam('Time', $request->getTime(), PDO::PARAM_STR);
+        $statement->bindParam('Age_Restriction', $request->getModuleId(), PDO::PARAM_STR);
+        $return = $statement->execute();
+
     }
+
+
+
+
+}
 

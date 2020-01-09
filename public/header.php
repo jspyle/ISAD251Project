@@ -18,6 +18,9 @@
         background-image: url(../resources/img/plymouth1.jpg);
         min-height: 90%;
     }
+    h5 {
+        float:right;
+    }
 </style>
 <body>
 

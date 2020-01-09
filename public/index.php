@@ -1,10 +1,11 @@
 <?php
 
 include_once 'header.php';
+include_once '../src/model/dbContext.php';
 
 if(!isset($db))
 {
-    $db = new DbContext();
+    $db = new dbContext();
 }
 
 ?>
@@ -29,23 +30,45 @@ if(!isset($db))
     <div class="w3-content">
 
         <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">THE MENU</h1>
-
+        <h2 class ="w3-center w3-xxxlarge">Food</h2>
         <?php
-        $listString = "";
-        $products = $db->Products();
+        $optionString = "";
+        $foods = $db->getItemTypes("Food");
         $className = 1;
 
-        if($products)
+        if($foods)
         {
-            foreach ($products as $product)
+            foreach($foods as $food)
             {
-                
+                $listFood.="<div class=item".$className.">"."<h5 id=price>"."£".$food->getPrice()."</h5>"."<h1 class='font-weight-bold'>".$food->getProductName()."</h1>".
+                    "<h4 id='description'>"."<i>".$food->getProductDesc()."</i>"."</h4>"."</div>";
+                $className += 1;
             }
         }
+        echo $listFood;
+        ?>
+        <h2 class="w3-center w3-xxxlarge" style="margin-bottom:64px">Drinks</h2>
+
+        <?php
+        $optionString = "";
+        $drinks = $db->getItemTypes("Drink");
+        $classDrink = 1;
+
+        if($drinks)
+        {
+            foreach($drinks as $drink)
+            {
+                $listDrink.="<div class=item".$className.">"."<h5 id=price>"."£".$drink->getPrice()."</h5>"."<h1 class='font-weight-bold'>".$drink->getProductName()."</h1>".
+                    "<h4 id='description'>"."<i>".$drink->getProductDesc()."</i>"."</h4>"."</div>";
+                $classDrink += 1;
+            }
+        }
+        echo $listDrink;
         ?>
 
     </div>
 </div>
+
 
 <!-- About Container -->
 <div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="about">
