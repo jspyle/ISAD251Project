@@ -6,7 +6,7 @@ include_once '../src/model/product.php';
 function getQuantityNo()
 {
     $quantityList = null;
-    $i = 1;
+    $i = 0;
     while ($i <= 10) {
         $quantityList .= "<option>" . $i . "</option>";
         $i++;
@@ -14,12 +14,13 @@ function getQuantityNo()
     echo $quantityList;
 }
 
-    if(!isset($db))
-    {
+    if(!isset($db)) {
         $db = new dbContext();
     }
-
-
+    if(isset($_POST['submit_Request'])){
+        $request = new request($_POST['orderId'], $_POST['customerId'], $_POST['tableNo'], $_POST['time'], $_POST['ageRestriction']);
+        $success = $db->Enter_Request($request);
+    }
 ?>
 
 <html>
@@ -60,16 +61,9 @@ function getQuantityNo()
                 ?>
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id=foodQuantity1">
+            <select id="foodQuantity1" >
                 <?php
-                $quantityList = null;
-                $i = 1;
-                while($i <= 10)
-                {
-                    $quantityList.="<option>".$i."</option>";
-                    $i++;
-                }
-                echo $quantityList;
+                getQuantityNo();
                 ?>
             </select>
 
@@ -93,7 +87,8 @@ function getQuantityNo()
                 ?>
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id=foodQuantity1">
+            <select id="foodQuantity2">
+
                 <?php
                 getQuantityNo();
                 ?>
@@ -124,7 +119,7 @@ function getQuantityNo()
 
     </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id=foodQuantity1">
+            <select id="drinkQuantity1">
                 <?php
                 getQuantityNo();
                 ?>
@@ -152,7 +147,7 @@ function getQuantityNo()
 
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id=foodQuantity1">
+            <select id="drinkQuantity2">
                 <?php
                 getQuantityNo();
                 ?>
@@ -196,7 +191,17 @@ function getQuantityNo()
                 </form>
             </div>
         </div>
+            <?php
+            $resultString = "<div class=\"row\"><div class=\col-sm-12\"><div class=\"card border-success nm-3\">
+                           <div class=\"card-header bg-success text-white\">Request Success</div><div></div></div>"
+
+
+
+            ?>
+
+
         </div>
+
 
         </body>
 </html>
