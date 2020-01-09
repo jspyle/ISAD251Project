@@ -1,5 +1,6 @@
 <?php
 include_once 'header.php';
+include_once '../src/model/request.php';
 include_once '../src/model/dbContext.php';
 include_once '../src/model/product.php';
 
@@ -14,13 +15,60 @@ function getQuantityNo()
     echo $quantityList;
 }
 
-    if(!isset($db)) {
-        $db = new dbContext();
+
+        if(!isset($db)) {
+            $db = new dbContext();
+        }
+        if (isset($_POST['submit_Request'])) {
+
+
+            switch ($_POST['foodTable']){
+                case "Chips - £3.99":
+                    echo $itemId = 101;
+                    break;
+                case "Crisps - £0.50":
+                    echo $itemId = 102;
+                    break;
+                case "Nuts - £0.99":
+                    echo $itemId = 103;
+                    break;
+            }
+
+            if ($_POST['foodTable'] = "Chips - £3.99") {
+                echo $itemId = 101;
+            }elseif($_POST['foodTable'] = "Crisps - £0.50"){
+                echo $itemId = 102;
+            }elseif($_POST['foodTable'] = "Nuts - £0.99"){
+                echo $itemId = 103;
+            }
+
+
+
+
+            $submitRequest = new orderDetails('996', '996', $_POST['tableNo'], '321321');
+            $submitCustomer = new customer('996',$_POST['name'], $_POST['email']);
+            $submitItem = new itemDetails('996',$itemId, 3);
+
+            //$success = $db->enter_Request($request);
+
+            $resultSet = $db->getNextOrderId();
+
+            $success = $db->enterCustomerRequest($submitCustomer);
+            $success = $db->enterOrderRequest($submitRequest);
+            $success = $db->enterItemRequest($submitItem);
+
+
+
     }
-    if(isset($_POST['submit_Request'])){
-        $request = new request($_POST['orderId'], $_POST['customerId'], $_POST['tableNo'], $_POST['time'], $_POST['ageRestriction']);
-        $success = $db->Enter_Request($request);
-    }
+
+
+
+
+
+
+
+
+
 ?>
 
 <html>
@@ -41,9 +89,10 @@ function getQuantityNo()
 
 <div class="card-body">
         <div class="form-group">
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
             <label for="food">Food</label>
             <br>
-            <select id="foodTable" class="form-control">
+            <select id="foodTable" class="form-control" name="foodTable">
                 <option>--Select Food--</option>
                 <?php
                 $optionString = "";
@@ -52,7 +101,7 @@ function getQuantityNo()
                 if ($foods) {
                     foreach ($foods as $food)
                     {
-                        $listFood.="<option>".$food->getProductName()." -  £". $food->getPrice()."</option>";
+                        $listFood.="<option>".$food->getProductName()." - £". $food->getPrice()."</option>";
                     }
                 }
                 echo $listFood;
@@ -61,7 +110,7 @@ function getQuantityNo()
                 ?>
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id="foodQuantity1" >
+            <select id="foodQuantity1" class="form-control" name="foodQuantity1">
                 <?php
                 getQuantityNo();
                 ?>
@@ -78,7 +127,7 @@ function getQuantityNo()
                 if ($foods2) {
                     foreach ($foods2 as $food2)
                     {
-                        $listFood2.="<option>".$food2->getProductName()." -  £". $food2->getPrice()."</option>";
+                        $listFood2.="<option>".$food2->getProductName()." - £". $food2->getPrice()."</option>";
                     }
                 }
                 echo $listFood2;
@@ -152,6 +201,7 @@ function getQuantityNo()
                 getQuantityNo();
                 ?>
             </select>
+            </form>
 </div>
 
         <div>
@@ -182,18 +232,26 @@ function getQuantityNo()
                     <p></p>
                 </div>
 
-                <form>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
                     Table Number: <input type="text" name="tableNo">
                     Name: <input type="text" name="name">
                     Email: <input type="text" name="email">
-                    <input id="submitRequest" onclick="" type="submit" value="Place Order">
+                    <input name="submit_Request" id="submitRequest" onclick="" type="submit" value="Place Order">
 
                 </form>
             </div>
         </div>
-            <?php
-            $resultString = "<div class=\"row\"><div class=\col-sm-12\"><div class=\"card border-success nm-3\">
-                           <div class=\"card-header bg-success text-white\">Request Success</div><div></div></div>"
+        <?php
+        $resultString = "<div class=\"row\"><div class=\col-sm-12\"><div class=\"card border-success nm-3\">
+                        <div class=\"card-header bg-success text-white\">Request Success</div><div></div></div>";
+            if($success > 0) {
+
+
+                echo $resultString;
+                alert($submitRequest);
+            }
+
+
 
 
 

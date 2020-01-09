@@ -1,3 +1,11 @@
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
+
+
+
 function openMenu(evt, menuName) {
     var i, x, tablinks;
     x = document.getElementsByClassName("menu");
@@ -45,5 +53,9 @@ document.getElementById("myLink").click();
     document.getElementById('yourSelection2').innerHTML = finalFoodSelection2;
     document.getElementById('yourSelection3').innerHTML = finalDrinkSelection;
     document.getElementById('yourSelection4').innerHTML = finalDrinkSelection2;
+
+
+
     return currentSelection;
 }
+

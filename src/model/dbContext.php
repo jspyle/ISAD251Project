@@ -34,6 +34,7 @@ class dbContext
 
         $sql = "SELECT * FROM `product` WHERE `Food_Drink` LIKE '".$type."'";
 
+
         $statement = $this->connection->prepare($sql);
         $statement->execute();
         $resultSet = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -49,22 +50,56 @@ class dbContext
     }
 
 
-    public function enter_Request($request)
+    public function enterOrderRequest($orderDetails)
     {
-        $sql = "CALL EnterRequest(:Order_Id, :Customer_Id, :Table_No, :Time :Age_Restriction)";
+        $sql = "CALL EnterRequest(:Order_Id, :Customer_Id, :Table_No, :Time)";
         $statement = $this->connection->prepare($sql);
 
-        $statement->bindParam('Order_Id', $request->getOrderId(), PDO::PARAM_STR);
-        $statement->bindParam('Customer_Id', $request->getCustomerId(), PDO::PARAM_STR);
-        $statement->bindParam('Table_No', $request->getTableNo(), PDO::PARAM_STR);
-        $statement->bindParam('Time', $request->getTime(), PDO::PARAM_STR);
-        $statement->bindParam('Age_Restriction', $request->getModuleId(), PDO::PARAM_STR);
-        $return = $statement->execute();
+        $statement->bindParam(':Order_Id', $orderDetails->getOrderId(), PDO::PARAM_INT);
+        $statement->bindParam(':Customer_Id', $orderDetails->getCustomerId(), PDO::PARAM_INT);
+        $statement->bindParam(':Table_No', $orderDetails->getTableNo(), PDO::PARAM_INT);
+        $statement->bindParam(':Time', $orderDetails->getTime(), PDO::PARAM_STR);
+        $orderDetails = $statement->execute();
+
+        return $orderDetails;
 
     }
 
+    public function enterCustomerRequest($customer)
+    {
+        $sql = "CALL EnterCustomer(:Customer_Id, :Name, :Email)";
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':Customer_Id', $customer->getCustomerId(), PDO::PARAM_INT);
+        $statement->bindParam(':Name', $customer->getName(), PDO::PARAM_STR);
+        $statement->bindParam(':Email', $customer->getEmail(), PDO::PARAM_INT);
 
+        $customer = $statement->execute();
 
+        return $customer;
+
+    }
+    public function getNextOrderId()
+    {
+
+        $sql="SELECT Order_Id FROM order_details ORDER BY Order_Id DESC ";
+        $order = $this->connection->prepare($sql);
+        $order->execute();
+        return $resultSet = $order->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+    public function enterItemRequest($itemDetails)
+    {
+        $sql = "CALL EnterItem(:Order_Id, :Product_Id, :Quantity)";
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':Order_Id', $itemDetails->getOrderId(), PDO::PARAM_INT);
+        $statement->bindParam(':Product_Id', $itemDetails->getProductId(), PDO::PARAM_INT);
+        $statement->bindParam(':Quantity', $itemDetails->getQuantity(), PDO::PARAM_INT);
+
+        $itemDetails = $statement->execute();
+
+        return $itemDetails;
+
+    }
 
 }
 
