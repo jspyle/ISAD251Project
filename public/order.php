@@ -48,31 +48,14 @@ function getQuantityNo()
                 $db->enterItemRequest($submitDrinkItem2);
            // endif;
             //$success = $db->enter_Request($request);
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 ?>
 
 <html>
 <body>
-
+<div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="about">
+    <div class="w3-content">
 <div class="card-body">
         <div class="form-group">
             <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
@@ -191,6 +174,18 @@ function getQuantityNo()
 
 </div>
 
+
+        Table Number: <input type="text" name="tableNo">
+        Name: <input type="text" name="name">
+        Email: <input type="text" name="email">
+        <input name="submit_Request" id="submitRequest" onclick="" type="submit" value="Place Order">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
         <div>
 
             <div class="w3-xlarge">
@@ -211,10 +206,7 @@ function getQuantityNo()
                 </div>
 
 
-                Table Number: <input type="text" name="tableNo">
-                Name: <input type="text" name="name">
-                Email: <input type="text" name="email">
-                <input name="submit_Request" id="submitRequest" onclick="" type="submit" value="Place Order">
+
 
         </div>
 

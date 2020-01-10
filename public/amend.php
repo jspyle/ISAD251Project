@@ -28,8 +28,8 @@ if (isset($_POST['submitRequest'])) {
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
     <div>
-    Email: <input type="text" name="orderIdEnter">
-    <input name="submitRequest2" id="submitRequest2" onclick="" type="submit" value="Place Order">
+    Order ID: <input type="text" name="orderIdEnter">
+    <input name="submitRequest2" id="submitRequest2" onclick="" type="submit" value="Check Order">
     </div>
 
 </form>

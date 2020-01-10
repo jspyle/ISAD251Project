@@ -1,6 +1,7 @@
 <?php
 
 include_once 'header.php';
+include_once '../src/model/dbContext.php';
 
 if(!isset($db))
 {
@@ -12,17 +13,6 @@ if(!isset($db))
 <!DOCTYPE html>
 
 <body>
-<!-- Header with image -->
-<header class="bgimg w3-display-container w3-grayscale-min" id="home">
-    <div class="w3-display-bottomleft w3-padding">
-        <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
-    </div>
-    <div class="w3-display-middle w3-center">
-        <span class="w3-text-white w3-hide-small" style="font-size:100px">The<br>Chamberlain Inn</span>
-        <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>The<br>Chamberlain Inn</b></span>
-        <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
-    </div>
-</header>
 
 <!-- Menu Container -->
 <div class="w3-container w3-black w3-padding-64 w3-xxlarge" id="menu">
@@ -99,7 +89,7 @@ if(!isset($db))
 <img src="/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;">
 
 <!-- Contact -->
-<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge">
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="contact">
     <div class="w3-content">
         <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Contact</h1>
         <p>Find us at some address at some place or call us at 05050515-122330</p>

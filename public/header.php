@@ -1,4 +1,11 @@
 <?php
+include_once '../src/model/dbContext.php';
+if(!isset($db))
+{
+    $db = new dbContext();
+}
+
+
 ?>
 
 <html>
@@ -28,10 +35,13 @@
 <!-- Navbar (sit on top) -->
 <div class="w3-top w3-hide-small">
     <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="myNavbar">
-        <a href="#" class="w3-bar-item w3-button">HOME</a>
-        <a href="#menu" class="w3-bar-item w3-button">MENU</a>
-        <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
-        <a href="#googleMap" class="w3-bar-item w3-button">CONTACT</a>
+        <a href="index.php" class="w3-bar-item w3-button">HOME</a>
+        <a href="index.php#menu" class="w3-bar-item w3-button">MENU</a>
+        <a href="index.php#about" class="w3-bar-item w3-button">ABOUT</a>
+        <a href="index.php#contact" class="w3-bar-item w3-button">CONTACT</a>
+
+        <a href="order.php" class="w3-bar-item w3-button">PLACE ORDER</a>
+        <a href="amend.php" class="w3-bar-item w3-button">Amend Order</a>
     </div>
 </div>
 <header class="bgimg w3-display-container w3-grayscale-min" id="home">
@@ -41,7 +51,7 @@
     <div class="w3-display-middle w3-center">
         <span class="w3-text-white w3-hide-small" style="font-size:100px">The<br>Chamberlain Inn</span>
         <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>The<br>Chamberlain Inn</b></span>
-        <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
     </div>
+
 </header>
 
