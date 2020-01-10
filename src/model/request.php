@@ -57,18 +57,28 @@ class orderDetails
 
 class itemDetails{
 
+    private $itemId;
     private $orderId;
     private $productId;
     private $quantity;
 
-    public function __construct($orderId, $productId, $quantity)
+    public function __construct($itemId,$orderId, $productId, $quantity)
     {
+        $this->itemId = $itemId;
         $this->orderId = $orderId;
         $this->productId = $productId;
         $this->quantity =$quantity;
 
     }
 
+    public function getItemId()
+    {
+        return $this->itemId;
+    }
+    public function setItemId($itemId)
+    {
+        $this->orderId = $itemId;
+    }
     public function getOrderId()
     {
         return $this->orderId;
@@ -140,5 +150,70 @@ class customer {
     }
 }
 
+class amendOrder{
 
+    private $itemId;
+    private $productId;
+    private $product_Name;
+    private $price;
+    private $quantity;
+
+    public function __construct($itemId, $productId, $product_Name, $price, $quantity)
+    {
+        $this->itemId = $itemId;
+        $this->productId = $productId;
+        $this->product_Name = $product_Name;
+        $this->price = $price;
+        $this->quantity = $quantity;
+    }
+
+    public function getItemId()
+    {
+        return $this->itemId;
+    }
+    public function setItemId($itemId)
+    {
+        $this->itemId = $itemId;
+    }
+
+    public function getProductId()
+    {
+        return  $this->productId;
+    }
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+    }
+
+    public function getProduct_Name()
+    {
+        return  $this->product_Name;
+    }
+    public function setProduct_Name($product_Name)
+    {
+        $this->product_Name = $product_Name;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+
+
+
+}
 

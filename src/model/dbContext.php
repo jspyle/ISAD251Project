@@ -105,8 +105,9 @@ class dbContext
     }
     public function enterItemRequest($itemDetails)
     {
-        $sql = "CALL EnterItem(:Order_Id, :Product_Id, :Quantity)";
+        $sql = "CALL EnterItem(:Item_Id, :Order_Id, :Product_Id, :Quantity)";
         $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':Item_Id', $itemDetails->getItemId(), PDO::PARAM_INT);
         $statement->bindParam(':Order_Id', $itemDetails->getOrderId(), PDO::PARAM_INT);
         $statement->bindParam(':Product_Id', $itemDetails->getProductId(), PDO::PARAM_INT);
         $statement->bindParam(':Quantity', $itemDetails->getQuantity(), PDO::PARAM_INT);
@@ -114,6 +115,24 @@ class dbContext
         $itemDetails = $statement->execute();
 
         return $itemDetails;
+
+    }
+
+    public function callCurrentOrder(){
+        $sql="SELECT item_details.Item_Id,product.Product_Id, product.Product_Name,product.Price, item_details.Quantity FROM `item_details`, `product` WHERE `Order_Id` = ".getCustomerOrder()." AND product.Product_Id = item_details.Product_Id";
+
+        $statement = $this->connection->prepare($sql);
+        $statement->execute();
+        $selectedOrderSet = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $itemsToAmend = [];
+        if ($selectedOrderSet) {
+            foreach ($selectedOrderSet as $row) {
+                $itemAmend = new amendOrder($row['Item_Id'], $row['Product_Id'], $row['Product_Name'], $row['Price'], $row['Quantity']);
+                $itemsToAmend[] = $itemAmend;
+            }
+        }
+        return $itemsToAmend;
 
     }
 

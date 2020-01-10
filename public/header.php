@@ -34,4 +34,14 @@
         <a href="#googleMap" class="w3-bar-item w3-button">CONTACT</a>
     </div>
 </div>
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-bottomleft w3-padding">
+        <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
+    </div>
+    <div class="w3-display-middle w3-center">
+        <span class="w3-text-white w3-hide-small" style="font-size:100px">The<br>Chamberlain Inn</span>
+        <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>The<br>Chamberlain Inn</b></span>
+        <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
+    </div>
+</header>
 

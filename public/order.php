@@ -32,19 +32,19 @@ function getQuantityNo()
             $success = $db->enterOrderRequest($submitRequest);
 
             //if($_POST['foodQuantity1'] != 0):
-                $submitFoodItem1 = new itemDetails($orderId,$_POST['foodTable'], $_POST['foodQuantity1']);
+                $submitFoodItem1 = new itemDetails($orderId."1", $orderId,$_POST['foodTable'], $_POST['foodQuantity1']);
                 $db->enterItemRequest($submitFoodItem1);
           //  endif;
            // if($_POST['foodQuantity2'] != 0) :
-                $submitFoodItem2 = new itemDetails($orderId, $_POST['foodTable2'], $_POST['foodQuantity2']);
+                $submitFoodItem2 = new itemDetails($orderId."2",$orderId, $_POST['foodTable2'], $_POST['foodQuantity2']);
                 $db->enterItemRequest($submitFoodItem2);
             //endif;
             //if($_POST['drinkQuantity1'] != 0) :
-                $submitDrinkItem1 = new itemDetails($orderId,$_POST['drinkTable'], $_POST['drinkQuantity1']);
+                $submitDrinkItem1 = new itemDetails($orderId."3",$orderId,$_POST['drinkTable'], $_POST['drinkQuantity1']);
                 $db->enterItemRequest($submitDrinkItem1);
             //endif;
             //if($_POST['drinkQuantity2'] != 0) :
-                $submitDrinkItem2 = new itemDetails($orderId,$_POST['drinkTable2'], $_POST['drinkQuantity2']);
+                $submitDrinkItem2 = new itemDetails($orderId."4",$orderId,$_POST['drinkTable2'], $_POST['drinkQuantity2']);
                 $db->enterItemRequest($submitDrinkItem2);
            // endif;
             //$success = $db->enter_Request($request);
@@ -72,19 +72,6 @@ function getQuantityNo()
 
 <html>
 <body>
-
-<header class="bgimg w3-display-container w3-grayscale-min" id="home">
-    <div class="w3-display-bottomleft w3-padding">
-        <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
-    </div>
-    <div class="w3-display-middle w3-center">
-        <span class="w3-text-white w3-hide-small" style="font-size:100px">The<br>Chamberlain Inn</span>
-        <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>The<br>Chamberlain Inn</b></span>
-        <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
-    </div>
-</header>
-
-
 
 <div class="card-body">
         <div class="form-group">
@@ -159,7 +146,7 @@ function getQuantityNo()
                     if ($drinks) {
                         foreach ($drinks as $drink)
                         {
-                            $listDrinks.="<option id=".$drink->getId().">".$drink->getProductName()." -  £". $drink->getPrice()."</option>";
+                            $listDrinks.="<option value=".$drink->getId().">".$drink->getProductName()." -  £". $drink->getPrice()."</option>";
                         }
                     }
                     echo $listDrinks;
@@ -186,7 +173,7 @@ function getQuantityNo()
                 if ($drinks2) {
                     foreach ($drinks2 as $drink2)
                     {
-                        $listDrinks2.="<option id=".$drink2->getId().">".$drink2->getProductName()." -  £". $drink2->getPrice()."</option>";
+                        $listDrinks2.="<option value=".$drink2->getId().">".$drink2->getProductName()." -  £". $drink2->getPrice()."</option>";
                     }
                 }
                 echo $listDrinks2;
