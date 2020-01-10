@@ -32,7 +32,7 @@ class dbContext
     public function getItemTypes($type)
     {
 
-        $sql = "SELECT * FROM `product` WHERE `Food_Drink` LIKE '".$type."'";
+        $sql = "SELECT * FROM `product` WHERE `Display` = \"1\" AND `Food_Drink` LIKE '".$type."'";
 
 
         $statement = $this->connection->prepare($sql);
@@ -78,13 +78,29 @@ class dbContext
         return $customer;
 
     }
+    public function getNextCustomerId()
+    {
+        $sql="SELECT MAX(Customer_Id) FROM customer ORDER BY Customer_Id DESC ";
+        $order = $this->connection->prepare($sql);
+        $order->execute();
+        $resultSet = $order->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($resultSet as $row){
+            $result = $row['MAX(Customer_Id)'];
+        }
+        return ($result +1);
+
+    }
     public function getNextOrderId()
     {
 
-        $sql="SELECT Order_Id FROM order_details ORDER BY Order_Id DESC ";
+        $sql="SELECT MAX(Order_Id) FROM order_details ORDER BY Order_Id DESC ";
         $order = $this->connection->prepare($sql);
         $order->execute();
-        return $resultSet = $order->fetchAll(PDO::FETCH_ASSOC);
+        $resultSet = $order->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($resultSet as $row){
+            $result = $row['MAX(Order_Id)'];
+        }
+        return ($result +1);
 
     }
     public function enterItemRequest($itemDetails)

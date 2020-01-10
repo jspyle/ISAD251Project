@@ -21,41 +21,40 @@ function getQuantityNo()
         }
         if (isset($_POST['submit_Request'])) {
 
+            $orderId = $db->getNextOrderId();
+            $customerId = $db->getNextCustomerId();
+            $date = "".date("h:i")."";
 
-            switch ($_POST['foodTable']){
-                case "Chips - £3.99":
-                    echo $itemId = 101;
-                    break;
-                case "Crisps - £0.50":
-                    echo $itemId = 102;
-                    break;
-                case "Nuts - £0.99":
-                    echo $itemId = 103;
-                    break;
-            }
-
-            if ($_POST['foodTable'] = "Chips - £3.99") {
-                echo $itemId = 101;
-            }elseif($_POST['foodTable'] = "Crisps - £0.50"){
-                echo $itemId = 102;
-            }elseif($_POST['foodTable'] = "Nuts - £0.99"){
-                echo $itemId = 103;
-            }
-
-
-
-
-            $submitRequest = new orderDetails('996', '996', $_POST['tableNo'], '321321');
-            $submitCustomer = new customer('996',$_POST['name'], $_POST['email']);
-            $submitItem = new itemDetails('996',$itemId, 3);
-
-            //$success = $db->enter_Request($request);
-
-            $resultSet = $db->getNextOrderId();
+            $submitRequest = new orderDetails($orderId, $customerId, $_POST['tableNo'],$date);
+            $submitCustomer = new customer($customerId,$_POST['name'], $_POST['email']);
 
             $success = $db->enterCustomerRequest($submitCustomer);
             $success = $db->enterOrderRequest($submitRequest);
-            $success = $db->enterItemRequest($submitItem);
+
+            //if($_POST['foodQuantity1'] != 0):
+                $submitFoodItem1 = new itemDetails($orderId,$_POST['foodTable'], $_POST['foodQuantity1']);
+                $db->enterItemRequest($submitFoodItem1);
+          //  endif;
+           // if($_POST['foodQuantity2'] != 0) :
+                $submitFoodItem2 = new itemDetails($orderId, $_POST['foodTable2'], $_POST['foodQuantity2']);
+                $db->enterItemRequest($submitFoodItem2);
+            //endif;
+            //if($_POST['drinkQuantity1'] != 0) :
+                $submitDrinkItem1 = new itemDetails($orderId,$_POST['drinkTable'], $_POST['drinkQuantity1']);
+                $db->enterItemRequest($submitDrinkItem1);
+            //endif;
+            //if($_POST['drinkQuantity2'] != 0) :
+                $submitDrinkItem2 = new itemDetails($orderId,$_POST['drinkTable2'], $_POST['drinkQuantity2']);
+                $db->enterItemRequest($submitDrinkItem2);
+           // endif;
+            //$success = $db->enter_Request($request);
+
+
+
+
+
+
+
 
 
 
@@ -101,7 +100,7 @@ function getQuantityNo()
                 if ($foods) {
                     foreach ($foods as $food)
                     {
-                        $listFood.="<option>".$food->getProductName()." - £". $food->getPrice()."</option>";
+                        $listFood.= "<option value=".$food->getId().">".$food->getProductName()." - £". $food->getPrice()."</option>";
                     }
                 }
                 echo $listFood;
@@ -117,8 +116,10 @@ function getQuantityNo()
             </select>
 
 
+
+
             <br>
-            <select id="foodTable2" class="form-control">
+            <select id="foodTable2" class="form-control" name="foodTable2">
                 <option>--Select Food--</option>
                 <?php
                 $optionString = "";
@@ -127,7 +128,7 @@ function getQuantityNo()
                 if ($foods2) {
                     foreach ($foods2 as $food2)
                     {
-                        $listFood2.="<option>".$food2->getProductName()." - £". $food2->getPrice()."</option>";
+                        $listFood2.="<option value=".$food2->getId().">".$food2->getProductName()." - £". $food2->getPrice()."</option>";
                     }
                 }
                 echo $listFood2;
@@ -136,7 +137,7 @@ function getQuantityNo()
                 ?>
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id="foodQuantity2">
+            <select id="foodQuantity2" name="foodQuantity2">
 
                 <?php
                 getQuantityNo();
@@ -147,7 +148,7 @@ function getQuantityNo()
             <br>
             <label for="drink">Drinks</label>
             <br>
-            <select id="drinkTable" class="form-control">
+            <select id="drinkTable" class="form-control" name="drinkTable">
 
 
                     <option>--Select Drink--</option>
@@ -158,7 +159,7 @@ function getQuantityNo()
                     if ($drinks) {
                         foreach ($drinks as $drink)
                         {
-                            $listDrinks.="<option id='foodList'>".$drink->getProductName()." -  £". $drink->getPrice()."</option>";
+                            $listDrinks.="<option id=".$drink->getId().">".$drink->getProductName()." -  £". $drink->getPrice()."</option>";
                         }
                     }
                     echo $listDrinks;
@@ -168,46 +169,66 @@ function getQuantityNo()
 
     </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id="drinkQuantity1">
+            <select id="drinkQuantity1" name="drinkQuantity1">
                 <?php
                 getQuantityNo();
                 ?>
             </select>
 
             <br>
-            <select id="drinkTable2" class="form-control">
+            <select id="drinkTable2" class="form-control" name="drinkTable2">
 
 
                 <option>--Select Drink--</option>
                 <?php
-                $optionString = "";
-                $drinks = $db->getItemTypes("Drink");
+                $drinks2 = $db->getItemTypes("Drink");
 
-                if ($drinks) {
-                    foreach ($drinks as $drink)
+                if ($drinks2) {
+                    foreach ($drinks2 as $drink2)
                     {
-                        $listDrinks.="<option id='foodList'>".$drink->getProductName()." -  £". $drink->getPrice()."</option>";
+                        $listDrinks2.="<option id=".$drink2->getId().">".$drink2->getProductName()." -  £". $drink2->getPrice()."</option>";
                     }
                 }
-                echo $listDrinks;
+                echo $listDrinks2;
 
 
                 ?>
 
             </select>
             <label style="padding-left:3em " for="quantity1" >Quantity:</label>
-            <select id="drinkQuantity2">
+            <select id="drinkQuantity2" name="drinkQuantity2">
                 <?php
                 getQuantityNo();
                 ?>
             </select>
-            </form>
+
 </div>
 
         <div>
 
             <div class="w3-xlarge">
                 <p><button onclick="document.getElementById('menu').style.display='block'; currentSelection()" class="w3-button w3-black">Submit Order</button></p>
+
+
+                <div id="yourSelection">
+                    <p></p>
+                </div>
+                <div id="yourSelection2">
+                    <p></p>
+                </div>
+                <div id="yourSelection3">
+                    <p></p>
+                </div>
+                <div id="yourSelection4">
+                    <p></p>
+                </div>
+
+
+                Table Number: <input type="text" name="tableNo">
+                Name: <input type="text" name="name">
+                Email: <input type="text" name="email">
+                <input name="submit_Request" id="submitRequest" onclick="" type="submit" value="Place Order">
+
         </div>
 
 
@@ -232,11 +253,7 @@ function getQuantityNo()
                     <p></p>
                 </div>
 
-                <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-                    Table Number: <input type="text" name="tableNo">
-                    Name: <input type="text" name="name">
-                    Email: <input type="text" name="email">
-                    <input name="submit_Request" id="submitRequest" onclick="" type="submit" value="Place Order">
+
 
                 </form>
             </div>
